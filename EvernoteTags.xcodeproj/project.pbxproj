@@ -1,0 +1,283 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2E303F071586987300BD1019 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E303F061586987300BD1019 /* UIKit.framework */; };
+		2E303F091586987300BD1019 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E303F081586987300BD1019 /* Foundation.framework */; };
+		2E303F0B1586987300BD1019 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E303F0A1586987300BD1019 /* CoreGraphics.framework */; };
+		2E303F111586987300BD1019 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2E303F0F1586987300BD1019 /* InfoPlist.strings */; };
+		2E303F131586987300BD1019 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E303F121586987300BD1019 /* main.m */; };
+		2E303F171586987300BD1019 /* EvernoteTagAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E303F161586987300BD1019 /* EvernoteTagAppDelegate.m */; };
+		2E303F1A1586987300BD1019 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E303F181586987300BD1019 /* MainStoryboard.storyboard */; };
+		2E303F1D1586987300BD1019 /* EvernoteTagViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E303F1C1586987300BD1019 /* EvernoteTagViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2E303F021586987300BD1019 /* EvernoteTags.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EvernoteTags.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E303F061586987300BD1019 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		2E303F081586987300BD1019 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		2E303F0A1586987300BD1019 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		2E303F0E1586987300BD1019 /* EvernoteTags-Info.plist */ = {isa = PBXFileReference; path = "EvernoteTags-Info.plist"; sourceTree = "<group>"; };
+		2E303F101586987300BD1019 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2E303F121586987300BD1019 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		2E303F141586987300BD1019 /* EvernoteTags-Prefix.pch */ = {isa = PBXFileReference; path = "EvernoteTags-Prefix.pch"; sourceTree = "<group>"; };
+		2E303F151586987300BD1019 /* EvernoteTagAppDelegate.h */ = {isa = PBXFileReference; path = EvernoteTagAppDelegate.h; sourceTree = "<group>"; };
+		2E303F161586987300BD1019 /* EvernoteTagAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EvernoteTagAppDelegate.m; sourceTree = "<group>"; };
+		2E303F191586987300BD1019 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		2E303F1B1586987300BD1019 /* EvernoteTagViewController.h */ = {isa = PBXFileReference; path = EvernoteTagViewController.h; sourceTree = "<group>"; };
+		2E303F1C1586987300BD1019 /* EvernoteTagViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EvernoteTagViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2E303EFF1586987300BD1019 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E303F071586987300BD1019 /* UIKit.framework in Frameworks */,
+				2E303F091586987300BD1019 /* Foundation.framework in Frameworks */,
+				2E303F0B1586987300BD1019 /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2E303EF71586987300BD1019 = {
+			isa = PBXGroup;
+			children = (
+				2E303F0C1586987300BD1019 /* EvernoteTags */,
+				2E303F051586987300BD1019 /* Frameworks */,
+				2E303F031586987300BD1019 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		2E303F031586987300BD1019 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2E303F021586987300BD1019 /* EvernoteTags.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2E303F051586987300BD1019 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2E303F061586987300BD1019 /* UIKit.framework */,
+				2E303F081586987300BD1019 /* Foundation.framework */,
+				2E303F0A1586987300BD1019 /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		2E303F0C1586987300BD1019 /* EvernoteTags */ = {
+			isa = PBXGroup;
+			children = (
+				2E303F151586987300BD1019 /* EvernoteTagAppDelegate.h */,
+				2E303F161586987300BD1019 /* EvernoteTagAppDelegate.m */,
+				2E303F181586987300BD1019 /* MainStoryboard.storyboard */,
+				2E303F1B1586987300BD1019 /* EvernoteTagViewController.h */,
+				2E303F1C1586987300BD1019 /* EvernoteTagViewController.m */,
+				2E303F0D1586987300BD1019 /* Supporting Files */,
+			);
+			path = EvernoteTags;
+			sourceTree = "<group>";
+		};
+		2E303F0D1586987300BD1019 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				2E303F0E1586987300BD1019 /* EvernoteTags-Info.plist */,
+				2E303F0F1586987300BD1019 /* InfoPlist.strings */,
+				2E303F121586987300BD1019 /* main.m */,
+				2E303F141586987300BD1019 /* EvernoteTags-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2E303F011586987300BD1019 /* EvernoteTags */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2E303F201586987300BD1019 /* Build configuration list for PBXNativeTarget "EvernoteTags" */;
+			buildPhases = (
+				2E303EFE1586987300BD1019 /* Sources */,
+				2E303EFF1586987300BD1019 /* Frameworks */,
+				2E303F001586987300BD1019 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = EvernoteTags;
+			productName = EvernoteTags;
+			productReference = 2E303F021586987300BD1019 /* EvernoteTags.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2E303EF91586987300BD1019 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = EvernoteTag;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = Icoms;
+			};
+			buildConfigurationList = 2E303EFC1586987300BD1019 /* Build configuration list for PBXProject "EvernoteTags" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 2E303EF71586987300BD1019;
+			productRefGroup = 2E303F031586987300BD1019 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2E303F011586987300BD1019 /* EvernoteTags */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2E303F001586987300BD1019 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E303F111586987300BD1019 /* InfoPlist.strings in Resources */,
+				2E303F1A1586987300BD1019 /* MainStoryboard.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2E303EFE1586987300BD1019 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E303F131586987300BD1019 /* main.m in Sources */,
+				2E303F171586987300BD1019 /* EvernoteTagAppDelegate.m in Sources */,
+				2E303F1D1586987300BD1019 /* EvernoteTagViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2E303F0F1586987300BD1019 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2E303F101586987300BD1019 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		2E303F181586987300BD1019 /* MainStoryboard.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2E303F191586987300BD1019 /* en */,
+			);
+			name = MainStoryboard.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2E303F1E1586987300BD1019 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		2E303F1F1586987300BD1019 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		2E303F211586987300BD1019 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EvernoteTags/EvernoteTags-Prefix.pch";
+				INFOPLIST_FILE = "EvernoteTags/EvernoteTags-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		2E303F221586987300BD1019 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "EvernoteTags/EvernoteTags-Prefix.pch";
+				INFOPLIST_FILE = "EvernoteTags/EvernoteTags-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2E303EFC1586987300BD1019 /* Build configuration list for PBXProject "EvernoteTags" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2E303F1E1586987300BD1019 /* Debug */,
+				2E303F1F1586987300BD1019 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2E303F201586987300BD1019 /* Build configuration list for PBXNativeTarget "EvernoteTags" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2E303F211586987300BD1019 /* Debug */,
+				2E303F221586987300BD1019 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2E303EF91586987300BD1019 /* Project object */;
+}
