@@ -10,4 +10,11 @@
 
 @interface EvernoteTagViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIButton *authenticateButton;
+- (IBAction)pressAuthenticate:(id)sender;
+
+@property (weak, nonatomic) IBOutlet UIButton *viewTagsButton;
+- (IBAction)viewTags;
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "EvernoteTagAppDelegate.h"
+#import "EvernoteSession.h"
 
 @implementation EvernoteTagAppDelegate
 
@@ -15,6 +16,20 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    
+    
+    NSString *EVERNOTE_HOST = @"sandbox.evernote.com";
+    NSString *CONSUMER_KEY = @"rbreve";
+    NSString *CONSUMER_SECRET = @"a484d72fef851aba";
+    
+    EvernoteSession *session = [[EvernoteSession alloc] init];
+    [session setHost:EVERNOTE_HOST];
+    [session setConsumerKey:CONSUMER_KEY];
+    [session setConsumerSecret:CONSUMER_SECRET];
+    
+    [EvernoteSession setSharedSession:session];
+
+    
     return YES;
 }
 							
@@ -43,6 +58,14 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+}
+
+- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    // delegate to the Evernote session singleton
+    if ([[EvernoteSession sharedSession] handleOpenURL:url]) {
+        return YES;
+    } 
+    return NO;
 }
 
 @end
