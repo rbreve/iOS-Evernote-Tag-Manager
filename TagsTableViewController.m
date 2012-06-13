@@ -153,6 +153,9 @@
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     
+    if ([self.addTagField.text isEqualToString:@""])
+        return NO;
+    
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.editingIndexPath];
     
     [cell.textLabel setText:self.addTagField.text];
@@ -226,10 +229,7 @@
     }   
       
 }
- 
- 
 
- 
 
 #pragma mark - Table view delegate
 
