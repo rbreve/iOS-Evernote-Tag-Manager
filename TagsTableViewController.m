@@ -11,6 +11,7 @@
 #import "MBProgressHUD.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define SCROLL_OFFSET -40
 
 @interface TagsTableViewController ()
 @property (nonatomic, strong) UITextField *addTagField;
@@ -79,7 +80,7 @@
     
     [noteStore createTag:newTag success:^(EDAMTag *tag) {
         
-        [self.tableView setContentOffset:CGPointMake(0, -40) animated:YES];
+        [self.tableView setContentOffset:CGPointMake(0, SCROLL_OFFSET) animated:YES];
 
         [self.tags removeAllObjects];
         [self loadEvernoteTags];
@@ -93,20 +94,18 @@
 
 
 -(void) setupAddTagForm{
-    self.addTagField = [[UITextField alloc] initWithFrame:CGRectMake(20, -40, 200, 30)];
+    self.addTagField = [[UITextField alloc] initWithFrame:CGRectMake(20, SCROLL_OFFSET, 200, 30)];
     [self.addTagField setAlpha:0];
     self.addTagField.delegate = self;
     
-    self.addButton= [[UIButton alloc] initWithFrame:CGRectMake(230, -40, 80, 30)];
-    
-    [self.addButton setBackgroundColor:[UIColor grayColor]];
+    self.addButton= [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    self.addButton.frame = CGRectMake(230, SCROLL_OFFSET, 80, 30); 
     [self.addButton setTitle:@"Add" forState:UIControlStateNormal];
     [self.addButton setAlpha:0];
     
     [self.addButton addTarget:self action:@selector(createTag:) forControlEvents:UIControlEventTouchUpInside];
-    
-    [self.addTagField setBorderStyle:UITextBorderStyleLine];
-    
+
+
     [self.tableView addSubview:self.addTagField];
     [self.tableView addSubview:self.addButton];
 }
@@ -180,6 +179,7 @@
     }];
     
     [self hideForm];
+    [self undimCellLabels];
 
     
     return YES;
@@ -230,6 +230,22 @@
       
 }
 
+- (void) dimCellLabels{
+    [self setCellLabelsOpacity:0.4];
+}
+
+- (void) undimCellLabels{
+    [self setCellLabelsOpacity:1];
+}
+
+
+- (void) setCellLabelsOpacity:(CGFloat) alpha{
+    for (UITableViewCell *cell in self.tableView.visibleCells){
+        [cell.textLabel setAlpha:alpha];
+    }
+}
+
+ 
 
 #pragma mark - Table view delegate
 
@@ -243,7 +259,7 @@
         
         UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.editingIndexPath];
         [cell.textLabel setHidden:NO];
-        
+        [self undimCellLabels];
         return;
     }
     
@@ -260,13 +276,15 @@
     [self showForm];
     
     [self.addTagField setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
-    [self.addTagField setFrame:CGRectMake(0, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
+    [self.addTagField setFrame:CGRectMake(10, cell.frame.origin.y+10, cell.frame.size.width, cell.frame.size.height)];
     [self.addTagField setReturnKeyType:UIReturnKeyDone];
     [self.addTagField becomeFirstResponder];
     
     [UIView animateWithDuration:0.35 animations:^{
         [self.tableView setContentOffset:CGPointMake(0, cell.layer.position.y-30)];
     }];
+    
+    [self dimCellLabels];
 
 }
 
@@ -292,7 +310,7 @@
 }
 
 -(void) showForm{
-    self.addTagField.frame = CGRectMake(20, -40, 200, 30);
+    self.addTagField.frame = CGRectMake(20, SCROLL_OFFSET, 200, 30);
     [UIView animateWithDuration:0.25 animations:^{
         [self.addButton setAlpha:1];
         [self.addTagField setAlpha:1];
@@ -300,7 +318,7 @@
 }
 
 
-- (IBAction)addTag:(id)sender {
+- (IBAction)didPressAdd:(id)sender {
     [self.addTagField becomeFirstResponder];
     self.isEditing = YES;
     [UIView animateWithDuration:0.45 animations:^{

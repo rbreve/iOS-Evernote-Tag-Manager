@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface TagsTableViewController : UITableViewController <UITextFieldDelegate>
-- (IBAction)addTag:(id)sender;
+
+- (IBAction)didPressAdd:(id)sender;
+
 @property (nonatomic, strong) NSMutableArray *tags;
 @end

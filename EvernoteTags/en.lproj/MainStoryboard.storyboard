@@ -96,7 +96,7 @@
                     <navigationItem key="navigationItem" title="Your Tags" id="VDl-8p-9Tg">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="3Nz-w5-iB9">
                             <connections>
-                                <action selector="addTag:" destination="GXu-dM-07v" id="vuE-Ec-c2T"/>
+                                <action selector="didPressAdd:" destination="GXu-dM-07v" id="yue-7Q-thf"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
