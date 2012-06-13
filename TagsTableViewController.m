@@ -16,13 +16,14 @@
 @property (nonatomic, strong) UITextField *addTagField;
 @property (nonatomic, strong) UIButton *addButton;
 @property (nonatomic, strong) NSIndexPath *editingIndexPath;
+@property (nonatomic, assign) BOOL isEditing;
 @end
 
 @implementation TagsTableViewController
 
 @synthesize tags = _tags;
 @synthesize addTagField = _addTagField;
-@synthesize addButton = _addButton, editingIndexPath = _editingIndexPath;
+@synthesize addButton = _addButton, editingIndexPath = _editingIndexPath, isEditing = _isEditing;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -41,24 +42,13 @@
     [noteStore listTagsWithSuccess:^(NSArray *tags) {
         for (EDAMTag *tag in tags) {
             [self.tags addObject:tag];
-            NSLog(@"tag name: %@", tag.name);
         }
         [self.tableView reloadData];
         [self hideHUD];
 
     } failure:^(NSError *error) {
-        NSLog(@"faild %@", error);
+        NSLog(@"failed %@", error);
     }];
-}
-
--(void) hideHUD{
-    [MBProgressHUD hideHUDForView:self.view animated:YES];
-}
-
--(void) showHUD:(NSString*) text{
-    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    hud.mode = MBProgressHUDModeIndeterminate;
-    hud.labelText = text;
 }
 
 
@@ -140,14 +130,7 @@
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
-#pragma mark - Table view data source
-//
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-//{
-//    // Return the number of sections.
-//    return 0;
-//}
+ 
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -160,9 +143,27 @@
     
     [cell.textLabel setText:self.addTagField.text];
     
+    [cell.textLabel setHidden:NO];
+
+    
     [self.addTagField resignFirstResponder];
 
+    
+    EDAMTag* tag = [self.tags objectAtIndex:[self.editingIndexPath row]];
+    
+    EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
+    
+    [tag setName:self.addTagField.text];
+     
+    [noteStore updateTag:tag success:^(int32_t usn) {
+        //do nothing
+    } failure:^(NSError *error) {
+        //couldnt edit tag alert box
+        NSLog(@"%@", error);
+    }];
+    
     [self hideForm];
+
     
     return YES;
 }
@@ -184,20 +185,19 @@
     return cell;
 }
 
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
+ 
 
 -(void) deleteTagFromServer:(EDAMTag *) tag forRowAtIndexPath:(NSIndexPath *) indexPath {
+    
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
+    
+    [self showHUD:@"Deleting Tag"];
+
+    
     [noteStore expungeTagWithGuid:[tag guid] success:^(int32_t usn) {
         [self.tags removeObject:tag];
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        [self hideHUD];
     } failure:^(NSError *error) {
         NSLog(@"Error deleting tag %@", error);
     }];
@@ -210,9 +210,7 @@
         EDAMTag *tag = [self.tags objectAtIndex:[indexPath row]];
         [self deleteTagFromServer:tag forRowAtIndexPath:indexPath];
     }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+      
 }
  
  
@@ -224,21 +222,52 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
    
+    if (self.isEditing) {
+        [self hideForm];
+        [self.addTagField resignFirstResponder];
+        self.isEditing = NO;
+        
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.editingIndexPath];
+        [cell.textLabel setHidden:NO];
+        
+        return;
+    }
+    
+    self.isEditing = YES;
+    
     [self.addTagField resignFirstResponder];
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    
     self.editingIndexPath = indexPath;
     
     [self.addTagField setText:cell.textLabel.text];
-    cell.textLabel.text  = @"";
+    [cell.textLabel setHidden:YES];
 
     [self showForm];
+    
     [self.addTagField setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
     [self.addTagField setFrame:CGRectMake(0, cell.frame.origin.y, cell.frame.size.width, cell.frame.size.height)];
     [self.addTagField setReturnKeyType:UIReturnKeyDone];
     [self.addTagField becomeFirstResponder];
+    
+    [UIView animateWithDuration:0.35 animations:^{
+        [self.tableView setContentOffset:CGPointMake(0, cell.layer.position.y-30)];
+    }];
+
 }
+
+
+
+-(void) hideHUD{
+    [MBProgressHUD hideHUDForView:self.view animated:YES];
+}
+
+-(void) showHUD:(NSString*) text{
+    MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    hud.mode = MBProgressHUDModeIndeterminate;
+    hud.labelText = text;
+}
+
 
 -(void) hideForm{
     [self.addTagField setText:@""];
@@ -250,7 +279,7 @@
 
 -(void) showForm{
     self.addTagField.frame = CGRectMake(20, -40, 200, 30);
-    [UIView animateWithDuration:0.35 animations:^{
+    [UIView animateWithDuration:0.25 animations:^{
         [self.addButton setAlpha:1];
         [self.addTagField setAlpha:1];
     }];
