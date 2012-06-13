@@ -14,7 +14,7 @@
 #define SCROLL_OFFSET -40
 
 @interface TagsTableViewController ()
-@property (nonatomic, strong) UITextField *addTagField;
+@property (nonatomic, strong) UITextField *tagTextField;
 @property (nonatomic, strong) UIButton *addButton;
 @property (nonatomic, strong) NSIndexPath *editingIndexPath;
 @property (nonatomic, assign) BOOL isEditing;
@@ -23,7 +23,7 @@
 @implementation TagsTableViewController
 
 @synthesize tags = _tags;
-@synthesize addTagField = _addTagField;
+@synthesize tagTextField = _tagTextField;
 @synthesize addButton = _addButton, editingIndexPath = _editingIndexPath, isEditing = _isEditing;
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -67,10 +67,10 @@
 -(void) createTag:(id)sender{
     EDAMTag *newTag = [[EDAMTag alloc] init];
     
-    newTag.name = self.addTagField.text;
+    newTag.name = self.tagTextField.text;
     
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
-    [self.addTagField resignFirstResponder];
+    [self.tagTextField resignFirstResponder];
 
     self.isEditing = NO;
     
@@ -94,9 +94,9 @@
 
 
 -(void) setupAddTagForm{
-    self.addTagField = [[UITextField alloc] initWithFrame:CGRectMake(20, SCROLL_OFFSET, 200, 30)];
-    [self.addTagField setAlpha:0];
-    self.addTagField.delegate = self;
+    self.tagTextField = [[UITextField alloc] initWithFrame:CGRectMake(20, SCROLL_OFFSET, 200, 30)];
+    [self.tagTextField setAlpha:0];
+    self.tagTextField.delegate = self;
     
     self.addButton= [UIButton buttonWithType:UIButtonTypeRoundedRect];
     self.addButton.frame = CGRectMake(230, SCROLL_OFFSET, 80, 30); 
@@ -106,7 +106,7 @@
     [self.addButton addTarget:self action:@selector(createTag:) forControlEvents:UIControlEventTouchUpInside];
 
 
-    [self.tableView addSubview:self.addTagField];
+    [self.tableView addSubview:self.tagTextField];
     [self.tableView addSubview:self.addButton];
 }
 
@@ -122,6 +122,7 @@
     [super viewDidLoad];
     
     [self showHUD:@"Loading Tags"];
+    
     [self loadEvernoteTags];
     
     [self setupAddTagForm];
@@ -135,7 +136,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    self.addTagField = nil;
+    self.tagTextField = nil;
     self.addButton = nil;
 }
 
@@ -150,32 +151,39 @@
     return [self.tags count];
 }
 
+
 -(BOOL) textFieldShouldReturn:(UITextField *)textField{
     
-    if ([self.addTagField.text isEqualToString:@""])
+    if ([self.tagTextField.text isEqualToString:@""])
         return NO;
     
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.editingIndexPath];
     
-    [cell.textLabel setText:self.addTagField.text];
+    [cell.textLabel setText:self.tagTextField.text];
     
     [cell.textLabel setHidden:NO];
 
     
-    [self.addTagField resignFirstResponder];
+    [self.tagTextField resignFirstResponder];
 
     
     EDAMTag* tag = [self.tags objectAtIndex:[self.editingIndexPath row]];
     
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
     
-    [tag setName:self.addTagField.text];
+    [tag setName:self.tagTextField.text];
      
     [noteStore updateTag:tag success:^(int32_t usn) {
-        //do nothing
+        
+
     } failure:^(NSError *error) {
-        //couldnt edit tag alert box
         NSLog(@"%@", error);
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops" 
+                                                         message:@"Error editing Tag" 
+                                                        delegate:nil 
+                                               cancelButtonTitle:@"OK" 
+                                               otherButtonTitles:nil];
+        [alert show];
     }];
     
     [self hideForm];
@@ -184,6 +192,7 @@
     
     return YES;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell Tag";
@@ -216,7 +225,16 @@
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
         [self hideHUD];
     } failure:^(NSError *error) {
-        NSLog(@"Error deleting tag %@", error);
+        NSLog(@"%@", error);
+        [self hideHUD];
+
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops" 
+                                                        message:@"Error Deleting Tag" 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"OK" 
+                                              otherButtonTitles:nil];
+
+        [alert show];
     }];
 }
  
@@ -229,6 +247,51 @@
     }   
       
 }
+
+
+ 
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+   
+    if (self.isEditing) {
+        [self hideForm];
+        [self.tagTextField resignFirstResponder];
+        self.isEditing = NO;
+        
+        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.editingIndexPath];
+        [cell.textLabel setHidden:NO];
+        [self undimCellLabels];
+        return;
+    }
+    
+    self.isEditing = YES;
+    
+    [self.tagTextField resignFirstResponder];
+    
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
+    self.editingIndexPath = indexPath;
+    
+    [self.tagTextField setText:cell.textLabel.text];
+    [cell.textLabel setHidden:YES];
+
+    [self showForm];
+    
+    [self.tagTextField setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
+    [self.tagTextField setFrame:CGRectMake(10, cell.frame.origin.y+10, cell.frame.size.width, cell.frame.size.height)];
+    [self.tagTextField setReturnKeyType:UIReturnKeyDone];
+    [self.tagTextField becomeFirstResponder];
+    
+    [UIView animateWithDuration:0.35 animations:^{
+        [self.tableView setContentOffset:CGPointMake(0, cell.layer.position.y-30)];
+    }];
+    
+    [self dimCellLabels];
+
+}
+
 
 - (void) dimCellLabels{
     [self setCellLabelsOpacity:0.4];
@@ -245,49 +308,6 @@
     }
 }
 
- 
-
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-   
-    if (self.isEditing) {
-        [self hideForm];
-        [self.addTagField resignFirstResponder];
-        self.isEditing = NO;
-        
-        UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.editingIndexPath];
-        [cell.textLabel setHidden:NO];
-        [self undimCellLabels];
-        return;
-    }
-    
-    self.isEditing = YES;
-    
-    [self.addTagField resignFirstResponder];
-    
-    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:indexPath];
-    self.editingIndexPath = indexPath;
-    
-    [self.addTagField setText:cell.textLabel.text];
-    [cell.textLabel setHidden:YES];
-
-    [self showForm];
-    
-    [self.addTagField setFont:[UIFont fontWithName:@"HelveticaNeue-Bold" size:20]];
-    [self.addTagField setFrame:CGRectMake(10, cell.frame.origin.y+10, cell.frame.size.width, cell.frame.size.height)];
-    [self.addTagField setReturnKeyType:UIReturnKeyDone];
-    [self.addTagField becomeFirstResponder];
-    
-    [UIView animateWithDuration:0.35 animations:^{
-        [self.tableView setContentOffset:CGPointMake(0, cell.layer.position.y-30)];
-    }];
-    
-    [self dimCellLabels];
-
-}
-
 
 
 -(void) hideHUD{
@@ -302,24 +322,24 @@
 
 
 -(void) hideForm{
-    [self.addTagField setText:@""];
+    [self.tagTextField setText:@""];
     [UIView animateWithDuration:0.35 animations:^{
         [self.addButton setAlpha:0];
-        [self.addTagField setAlpha:0];
+        [self.tagTextField setAlpha:0];
     }];
 }
 
 -(void) showForm{
-    self.addTagField.frame = CGRectMake(20, SCROLL_OFFSET, 200, 30);
+    self.tagTextField.frame = CGRectMake(20, SCROLL_OFFSET, 200, 30);
     [UIView animateWithDuration:0.25 animations:^{
         [self.addButton setAlpha:1];
-        [self.addTagField setAlpha:1];
+        [self.tagTextField setAlpha:1];
     }];
 }
 
 
 - (IBAction)didPressAdd:(id)sender {
-    [self.addTagField becomeFirstResponder];
+    [self.tagTextField becomeFirstResponder];
     self.isEditing = YES;
     [UIView animateWithDuration:0.45 animations:^{
         //

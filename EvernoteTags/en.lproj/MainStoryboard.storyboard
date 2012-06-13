@@ -123,6 +123,24 @@
             <point key="canvasLocation" x="64" y="94"/>
         </scene>
     </scenes>
+    <classes>
+        <class className="EvernoteTagViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EvernoteTagViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="pressAuthenticate:"/>
+                <relationship kind="action" name="viewTags"/>
+                <relationship kind="outlet" name="authenticateButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="usernameLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="viewTagsButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="TagsTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TagsTableViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="didPressAdd:"/>
+            </relationships>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
