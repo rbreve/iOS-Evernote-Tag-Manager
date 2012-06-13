@@ -15,7 +15,7 @@
 @interface TagsTableViewController ()
 @property (nonatomic, strong) UITextField *addTagField;
 @property (nonatomic, strong) UIButton *addButton;
-@property (nonatomic, weak) NSIndexPath *editingIndexPath;
+@property (nonatomic, strong) NSIndexPath *editingIndexPath;
 @end
 
 @implementation TagsTableViewController
@@ -159,6 +159,7 @@
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:self.editingIndexPath];
     
     [cell.textLabel setText:self.addTagField.text];
+    
     [self.addTagField resignFirstResponder];
 
     [self hideForm];
@@ -248,6 +249,7 @@
 }
 
 -(void) showForm{
+    self.addTagField.frame = CGRectMake(20, -40, 200, 30);
     [UIView animateWithDuration:0.35 animations:^{
         [self.addButton setAlpha:1];
         [self.addTagField setAlpha:1];
