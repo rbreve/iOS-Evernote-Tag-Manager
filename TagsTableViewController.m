@@ -34,6 +34,15 @@
     return self;
 }
 
+-(void) orderTags{
+    [self.tags sortUsingComparator: ^(EDAMTag *obj1, EDAMTag *obj2) {
+        NSString *tagName1  = obj1.name;
+        NSString *tagName2  = obj2.name;
+        return [tagName1 caseInsensitiveCompare:tagName2];
+    }];
+        
+}
+
 -(void) loadEvernoteTags{
     self.tags = [[NSMutableArray alloc] init];
     
@@ -43,6 +52,7 @@
         for (EDAMTag *tag in tags) {
             [self.tags addObject:tag];
         }
+        [self orderTags];
         [self.tableView reloadData];
         [self hideHUD];
 
@@ -61,7 +71,11 @@
     EvernoteNoteStore *noteStore = [EvernoteNoteStore noteStore];
     [self.addTagField resignFirstResponder];
 
+    self.isEditing = NO;
+    
     [self showHUD:@"Creating Tag"];
+    
+    
     
     [noteStore createTag:newTag success:^(EDAMTag *tag) {
         
@@ -288,7 +302,7 @@
 
 - (IBAction)addTag:(id)sender {
     [self.addTagField becomeFirstResponder];
-
+    self.isEditing = YES;
     [UIView animateWithDuration:0.45 animations:^{
         //
         [self.tableView setContentOffset:CGPointMake(0, -60)];

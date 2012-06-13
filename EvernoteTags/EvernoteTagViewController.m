@@ -67,6 +67,8 @@
     if (session.isAuthenticated){
         [self.viewTagsButton setHidden:NO];
         [self.authenticateButton setHidden:YES];
+        [self.usernameLabel setText:@"Getting Username..."];
+
         [self updateUsername];
     }else{
         [self.viewTagsButton setHidden:YES];
